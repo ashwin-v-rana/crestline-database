@@ -33,7 +33,10 @@ async function main() {
   for (const agent of AGENTS) {
     const { error } = await supabase
       .from('agents')
-      .upsert({ ...agent, password_hash }, { onConflict: 'email' })
+      .upsert(
+        { ...agent, password_hash, must_change_password: false },
+        { onConflict: 'email' },
+      )
     if (error) {
       console.error(`  ✗  ${agent.email}: ${error.message}`)
     } else {
